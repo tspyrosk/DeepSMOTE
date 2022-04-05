@@ -232,8 +232,7 @@ for i in range(len(ids)):
     train_loader = torch.utils.data.DataLoader(mnist_bal, 
         batch_size=batch_size,shuffle=True,num_workers=num_workers)
     
-    classes = ('0', '1', '2', '3', '4',
-           '5', '6', '7', '8', '9')
+    classes = ('19-01 goed', '19-01 dubbeldruk', '19-01 interrupted')
 
     best_loss = np.inf
 
