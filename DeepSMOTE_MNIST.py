@@ -223,8 +223,7 @@ for i in range(len(ids)):
     dec_y = np.array(dec_y).reshape(1,3)
 
     print('train imgs before reshape ',dec_x.shape) 
-    print('train labels ',dec_y.shape) 
-    print(collections.Counter(dec_y))
+    print('train labels ',dec_y.shape)
     dec_x = dec_x.reshape(1,3,28,28)   
     print('train imgs after reshape ',dec_x.shape) 
 
