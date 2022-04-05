@@ -8,15 +8,19 @@ from sklearn.neighbors import NearestNeighbors
 import os
 print(torch.version.cuda) #10.1
 import time
+
+from tensorflow.keras.preprocessing import image
+from PIL import Image
+
 t0 = time.time()
 ##############################################################################
 """args for models"""
 
 args = {}
 args['dim_h'] = 64          # factor controlling size of hidden layers
-args['n_channel'] = 1       # number of channels in the input data 
+args['n_channel'] = 3       # number of channels in the input data 
 
-args['n_z'] = 300 #600     # number of dimensions in latent space. 
+args['n_z'] = 600     # number of dimensions in latent space. 
 
 args['sigma'] = 1.0        # variance in n_z
 args['lambda'] = 0.01      # hyper param for weight of discriminator loss
@@ -160,47 +164,62 @@ dtrnlab = '.../0_trn_lab.txt'
 
 ids = os.listdir(dtrnimg)
 idtri_f = [os.path.join(dtrnimg, image_id) for image_id in ids]
-print(idtri_f)
 
-ids = os.listdir(dtrnlab)
-idtrl_f = [os.path.join(dtrnlab, image_id) for image_id in ids]
-print(idtrl_f)
+actual_img_files = []
+for path in idtri_f:
+    try:
+        image.load_img(path)
+        if not('good' in path):
+            actual_img_files.append(path)
+    except:
+        print('Ignoring invalid path: ', path)
+        
+idtri_f = actual_img_files
+print('len idtri_f:', len(idtri_f))
 
 #path on the computer where the models are stored
-modpth = '.../MNIST/models/crs5/'
+modpth = '../input/deepsmotedecsnapshot/models/crs5/'
 
 encf = []
 decf = []
-for p in range(5):
-    enc = modpth + '/' + str(p) + '/bst_enc.pth'
-    dec = modpth + '/' + str(p) + '/bst_dec.pth'
+for p in [30, 31, 32, 33, 34]:
+    enc = modpth + f'/bst_enc{p}.pth'
+    dec = modpth + f'/bst_dec{p}.pth'
     encf.append(enc)
     decf.append(dec)
     #print(enc)
     #print(dec)
     #print()
 
-for m in range(5):
-    print(m)
-    trnimgfile = idtri_f[m]
-    trnlabfile = idtrl_f[m]
-    print(trnimgfile)
-    print(trnlabfile)
-    dec_x = np.loadtxt(trnimgfile) 
-    dec_y = np.loadtxt(trnlabfile)
+for m in range(4,5):
+        
+    images = []
+    labels = []
+    for im_i in range(len(idtri_f)):
+        trnimgfile = idtri_f[im_i]
+    
+        img_orig = image.load_img(trnimgfile, target_size=(28, 28))
+        dec_x = image.img_to_array(img_orig).astype(np.uint8)
+        dec_x = np.moveaxis(dec_x, -1, 0)
+        images.append(dec_x)
+     
+        if 'good' in trnimgfile:   
+            dec_y = 0
+        elif 'double' in trnimgfile:
+            dec_y = 1
+        else:
+            dec_y = 2
+     
+        dec_y = np.array(dec_y)
+        labels.append(dec_y)
+                            
+    dec_x = np.array(images)
+    dec_y = np.array(labels) 
 
     print('train imgs before reshape ',dec_x.shape) #(44993, 3072) 45500, 3072)
     print('train labels ',dec_y.shape) #(44993,) (45500,)
 
-    dec_x = dec_x.reshape(dec_x.shape[0],1,28,28)
-
-    print('decy ',dec_y.shape)
-    print(collections.Counter(dec_y))
-    
-    print('train imgs after reshape ',dec_x.shape) #(45000,3,32,32)
-
-    classes = ('0', '1', '2', '3', '4',
-           '5', '6', '7', '8', '9')
+    classes = ('19-01 goed', '19-01 dubbeldruk', '19-01 interrupted')
     
     #generate some images 
     train_on_gpu = torch.cuda.is_available()
@@ -220,13 +239,12 @@ for m in range(5):
     encoder.eval()
     decoder.eval()
 
-    #imbal = [4500, 2000, 1000, 800, 600, 500, 400, 250, 150, 80]
     imbal = [2677, 244, 598]
 
     resx = []
     resy = []
 
-    for i in range(1,10):
+    for i in range(1,3):
         xclass, yclass = biased_get_class1(i)
         print(xclass.shape) #(500, 3, 32, 32)
         print(yclass[0]) #(500,)
@@ -280,14 +298,15 @@ for m in range(5):
     print(combx.shape) #(45000, 3, 32, 32)
     print(comby.shape) #(45000,)
 
-    ifile = '.../MNIST/trn_img_f/' + \
-        str(m) + '_trn_img.txt'
-    np.savetxt(ifile, combx)
-    
-    lfile = '.../MNIST/trn_lab_f/' + \
-        str(m) + '_trn_lab.txt'
-    np.savetxt(lfile,comby) 
-    print()
+    for im_idx, im in enumerate(combx):
+        label = comby[im_idx]
+        ifile = './aug_data/'
+        if label == 1:
+            ifile = ifile + '19-01 dubbeldruk/'
+        else:
+            ifile = ifile + '19-01 onderbroken/'
+        im = Image.fromarray(im)
+        im.save(ifile)
 
 t1 = time.time()
 print('final time(min): {:.2f}'.format((t1 - t0)/60))
