@@ -220,7 +220,7 @@ for i in range(len(ids)):
     else:
         dec_y = [0, 0, 1]
      
-    dec_y = np.array(dec_y)
+    dec_y = np.array(dec_y).reshape(1,3)
 
     print('train imgs before reshape ',dec_x.shape) 
     print('train labels ',dec_y.shape) 
