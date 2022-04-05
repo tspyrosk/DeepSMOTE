@@ -199,7 +199,7 @@ for index in range(0,len(idtri_f),batch_size):
 batches = batches[:-1]
 #for i in range(5):
 for i in range(len(batches)):
-    curr_batch_size = len(batch)
+    curr_batch_size = len(batches[i])
     print("curr_batch_size: ", curr_batch_size)
     encoder = Encoder(args)
     decoder = Decoder(args)
@@ -298,6 +298,7 @@ for i in range(len(batches)):
                 xlen = len(xbeg)
                 nsamp = min(xlen, 100)
                 ind = np.random.choice(list(range(len(xbeg))),nsamp,replace=False)
+                print("ind", ind)
                 xclass = xbeg[ind]
                 yclass = ybeg[ind]
             
@@ -377,8 +378,7 @@ for i in range(len(batches)):
             + f'/f_enc{i}.pth'
         path_dec = './models/crs5/' \
             + f'/f_dec{i}.pth'
-        print(path_enc)
-        print(path_dec)
+
         torch.save(encoder.state_dict(), path_enc)
         torch.save(decoder.state_dict(), path_dec)
         print()
