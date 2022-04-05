@@ -185,7 +185,7 @@ dtrnimg = './shaver_shell_train/'
 
 ids = os.listdir(dtrnimg)
 idtri_f = [os.path.join(dtrnimg, image_id) for image_id in ids]
-print(idtri_f)
+print(idtri_f[:10])
 
 #for i in range(5):
 for i in range(len(ids)):
@@ -218,6 +218,8 @@ for i in range(len(ids)):
         dec_y = [0, 1, 0]
     else:
         dec_y = [0, 0, 1]
+     
+    dec_y = np.array(dec_y)
 
     print('train imgs before reshape ',dec_x.shape) 
     print('train labels ',dec_y.shape) 
