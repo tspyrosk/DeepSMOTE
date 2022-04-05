@@ -187,6 +187,15 @@ ids = os.listdir(dtrnimg)
 idtri_f = [os.path.join(dtrnimg, image_id) for image_id in ids]
 print(idtri_f[:10])
 
+actual_img_files = []
+for path in idtri_f:
+    try:
+        image.load_img(path)
+        actual_img_files.append(path)
+    except:
+        print('Ignoring invalid path: ', path)
+        
+idtri_f = actual_img_files
 
 batch_size = 100
 batches = []
