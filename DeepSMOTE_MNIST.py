@@ -357,10 +357,10 @@ for i in range(len(batches)):
             #necessary for illustration purposes
             if train_loss < best_loss:
                 print('Saving..')
-                path_enc = '.../MNIST/models/crs5/' \
-                    + str(i) + '/bst_enc.pth'
-                path_dec = '.../MNIST/models/crs5/' \
-                    + str(i) + '/bst_dec.pth'
+                path_enc = './models/crs5/' \
+                    + f'/bst_enc{i}.pth'
+                path_dec = './models/crs5/' \
+                    + f'/bst_dec{i}.pth'
              
                 torch.save(encoder.state_dict(), path_enc)
                 torch.save(decoder.state_dict(), path_dec)
@@ -371,9 +371,9 @@ for i in range(len(batches)):
         #in addition, store the final model (may not be the best) for
         #informational purposes
         path_enc = './models/crs5/' \
-            + str(i) + '/f_enc.pth'
+            + f'/f_enc{i}.pth'
         path_dec = './models/crs5/' \
-            + str(i) + '/f_dec.pth'
+            + f'/f_dec{i}.pth'
         print(path_enc)
         print(path_dec)
         torch.save(encoder.state_dict(), path_enc)
