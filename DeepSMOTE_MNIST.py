@@ -187,10 +187,16 @@ ids = os.listdir(dtrnimg)
 idtri_f = [os.path.join(dtrnimg, image_id) for image_id in ids]
 print(idtri_f[:10])
 
+
+batch_size = 100
+batches = []
+for index in range(0,len(idtri_f),batch_size):
+    batch=idtri_f[index:min(index+batch_size,len(idtri_f),:]
+    batches.append(batch)
 #for i in range(5):
-for i in range(len(ids)):
-    print()
-    print(i)
+for i in range(len(batches)):
+    curr_batch_size = batch.shape[0]
+    print("curr_batch_size: ", curr_batch_size)
     encoder = Encoder(args)
     decoder = Decoder(args)
 
@@ -205,29 +211,32 @@ for i in range(len(ids)):
     criterion = nn.MSELoss()
     criterion = criterion.to(device)
     
-    trnimgfile = idtri_f[i]
+    images = []
+    labels = []
+    for im_i in range(curr_batch_size):
+        trnimgfile = batch[im_i]
     
-    print(trnimgfile)
-    
-    img_orig = image.load_img(trnimgfile, target_size=(28, 28))
-    dec_x = image.img_to_array(img_orig).astype(np.uint8)
-    dec_x = np.moveaxis(dec_x, -1, 0)
+        img_orig = image.load_img(trnimgfile, target_size=(28, 28))
+        dec_x = image.img_to_array(img_orig).astype(np.uint8)
+        dec_x = np.moveaxis(dec_x, -1, 0)
+        images.append(dec_x)
      
-    if 'good' in trnimgfile:   
-        dec_y = [1, 0, 0]
-    elif 'double' in trnimgfile:
-        dec_y = [0, 1, 0]
-    else:
-        dec_y = [0, 0, 1]
+        if 'good' in trnimgfile:   
+            dec_y = [1, 0, 0]
+        elif 'double' in trnimgfile:
+            dec_y = [0, 1, 0]
+        else:
+            dec_y = [0, 0, 1]
      
-    dec_y = np.array(dec_y).reshape(1,3)
+        dec_y = np.array(dec_y)
+        labels.append(dec_y)
+                            
+    dec_x = np.array(images)
+    dec_y = np.array(labels)                       
 
-    print('train imgs before reshape ',dec_x.shape) 
+    print('train imgs shape ',dec_x.shape) 
     print('train labels ',dec_y.shape)
-    dec_x = dec_x.reshape(1,3,28,28)   
-    print('train imgs after reshape ',dec_x.shape) 
 
-    batch_size = 1
     num_workers = 0
 
     #torch.Tensor returns float so if want long then use torch.tensor
