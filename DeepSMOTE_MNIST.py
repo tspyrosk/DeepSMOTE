@@ -209,8 +209,9 @@ for i in range(len(ids)):
     
     print(trnimgfile)
     
-    img_orig = image.load_img(trnimgfile)
+    img_orig = image.load_img(trnimgfile, target_size=(28, 28))
     dec_x = image.img_to_array(img_orig).astype(np.uint8)
+    dec_x = np.moveaxis(dec_x, -1, 0)
      
     if 'good' in trnimgfile:   
         dec_y = [1, 0, 0]
@@ -224,7 +225,7 @@ for i in range(len(ids)):
     print('train imgs before reshape ',dec_x.shape) 
     print('train labels ',dec_y.shape) 
     print(collections.Counter(dec_y))
-    dec_x = dec_x.reshape(dec_x.shape[0],1,28,28)   
+    dec_x = dec_x.reshape(1,3,28,28)   
     print('train imgs after reshape ',dec_x.shape) 
 
     batch_size = 100
