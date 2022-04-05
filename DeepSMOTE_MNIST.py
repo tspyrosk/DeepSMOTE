@@ -15,9 +15,9 @@ t3 = time.time()
 
 args = {}
 args['dim_h'] = 64         # factor controlling size of hidden layers
-args['n_channel'] = 1#3    # number of channels in the input data 
+args['n_channel'] = 3    # number of channels in the input data 
 
-args['n_z'] = 300 #600     # number of dimensions in latent space. 
+args['n_z'] = 600     # number of dimensions in latent space. 
 
 args['sigma'] = 1.0        # variance in n_z
 args['lambda'] = 0.01      # hyper param for weight of discriminator loss
