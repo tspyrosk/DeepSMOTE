@@ -223,11 +223,11 @@ for i in range(len(batches)):
         images.append(dec_x)
      
         if 'good' in trnimgfile:   
-            dec_y = [1, 0, 0]
+            dec_y = 0
         elif 'double' in trnimgfile:
-            dec_y = [0, 1, 0]
+            dec_y = 1
         else:
-            dec_y = [0, 0, 1]
+            dec_y = 2
      
         dec_y = np.array(dec_y)
         labels.append(dec_y)
@@ -288,7 +288,7 @@ for i in range(len(batches)):
                 resx = []
                 resy = []
             
-                tc = np.random.choice(10,1)
+                tc= np.random.choice(3,1)
                 #tc = 9
                 xbeg = dec_x[dec_y == tc]
                 ybeg = dec_y[dec_y == tc] 
