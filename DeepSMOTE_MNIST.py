@@ -199,7 +199,8 @@ for index in range(0,len(idtri_f),batch_size):
 batches = batches[:-1]
 #for i in range(5):
 for i in range(len(batches)):
-    curr_batch_size = len(batches[i])
+    curr_batch = batches[i]
+    curr_batch_size = len(curr_batch)
     print("curr_batch_size: ", curr_batch_size)
     encoder = Encoder(args)
     decoder = Decoder(args)
@@ -218,7 +219,7 @@ for i in range(len(batches)):
     images = []
     labels = []
     for im_i in range(curr_batch_size):
-        trnimgfile = batch[im_i]
+        trnimgfile = curr_batch[im_i]
     
         img_orig = image.load_img(trnimgfile, target_size=(28, 28))
         dec_x = image.img_to_array(img_orig).astype(np.uint8)
