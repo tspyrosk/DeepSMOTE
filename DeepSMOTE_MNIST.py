@@ -191,7 +191,7 @@ print(idtri_f[:10])
 batch_size = 100
 batches = []
 for index in range(0,len(idtri_f),batch_size):
-    batch=idtri_f[index:min(index+batch_size,len(idtri_f),:]
+    batch=idtri_f[index:min(index+batch_size,len(idtri_f)),:]
     batches.append(batch)
 #for i in range(5):
 for i in range(len(batches)):
