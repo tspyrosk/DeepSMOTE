@@ -194,6 +194,9 @@ for index in range(0,len(idtri_f),batch_size):
     top = min(index+batch_size,len(idtri_f))
     batch=idtri_f[index:top]
     batches.append(batch)
+    
+#discard last batch
+batches = batches[:-1]
 #for i in range(5):
 for i in range(len(batches)):
     curr_batch_size = len(batch)
