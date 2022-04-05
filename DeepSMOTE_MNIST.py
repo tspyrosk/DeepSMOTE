@@ -196,7 +196,7 @@ for index in range(0,len(idtri_f),batch_size):
     batches.append(batch)
 #for i in range(5):
 for i in range(len(batches)):
-    curr_batch_size = batch.shape[0]
+    curr_batch_size = len(batch)
     print("curr_batch_size: ", curr_batch_size)
     encoder = Encoder(args)
     decoder = Decoder(args)
