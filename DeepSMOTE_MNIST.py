@@ -181,16 +181,11 @@ def G_SM(X, y,n_to_sample,cl):
 #directories.  Here, for illustration, we use only 1 training and 1 label
 #file (e.g., '.../0_trn_img.txt' and '.../0_trn_lab.txt').
 
-dtrnimg = '.../MNIST/trn_img/'
-dtrnlab = '.../MNIST/trn_lab/'
+dtrnimg = './shaver_shell_train/'
 
 ids = os.listdir(dtrnimg)
 idtri_f = [os.path.join(dtrnimg, image_id) for image_id in ids]
 print(idtri_f)
-
-ids = os.listdir(dtrnlab)
-idtrl_f = [os.path.join(dtrnlab, image_id) for image_id in ids]
-print(idtrl_f)
 
 #for i in range(5):
 for i in range(len(ids)):
@@ -363,9 +358,9 @@ for i in range(len(ids)):
         
         #in addition, store the final model (may not be the best) for
         #informational purposes
-        path_enc = '.../MNIST/models/crs5/' \
+        path_enc = './models/crs5/' \
             + str(i) + '/f_enc.pth'
-        path_dec = '.../MNIST/models/crs5/' \
+        path_dec = './models/crs5/' \
             + str(i) + '/f_dec.pth'
         print(path_enc)
         print(path_dec)
