@@ -8,6 +8,8 @@ from sklearn.neighbors import NearestNeighbors
 import time
 import os
 
+from tensorflow.keras.preprocessing import image
+
 print(torch.version.cuda) #10.1
 t3 = time.time()
 ##############################################################################
@@ -209,12 +211,18 @@ for i in range(len(ids)):
     criterion = criterion.to(device)
     
     trnimgfile = idtri_f[i]
-    trnlabfile = idtrl_f[i]
     
     print(trnimgfile)
-    print(trnlabfile)
-    dec_x = np.loadtxt(trnimgfile) 
-    dec_y = np.loadtxt(trnlabfile)
+    
+    img_orig = image.load_img(trnimgfile)
+    dec_x = image.img_to_array(img_orig).astype(np.uint8)
+     
+    if 'good' in trnimgfile:   
+        dec_y = [1, 0, 0]
+    elif 'double' in trnimgfile:
+        dec_y = [0, 1, 0]
+    else:
+        dec_y = [0, 0, 1]
 
     print('train imgs before reshape ',dec_x.shape) 
     print('train labels ',dec_y.shape) 
