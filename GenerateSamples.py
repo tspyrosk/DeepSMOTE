@@ -181,7 +181,7 @@ modpth = '../input/deepsmotedecsnapshot/models/crs5/'
 
 encf = []
 decf = []
-for p in [30, 31, 32, 33, 34]:
+for p in [10, 11, 12, 13, 14]:
     enc = modpth + f'/bst_enc{p}.pth'
     dec = modpth + f'/bst_dec{p}.pth'
     encf.append(enc)
