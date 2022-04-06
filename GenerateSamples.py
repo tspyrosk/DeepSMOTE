@@ -300,7 +300,7 @@ for m in range(4,5):
             ifile = ifile + '19-01 dubbeldruk/'
         else:
             ifile = ifile + '19-01 onderbroken/'
-        ifile = ifile + f'im{im_idx}.jpg'
+        ifile = ifile + f'im{im_idx}.png'
         im = Image.fromarray(im[0])
         im.save(ifile)
 
