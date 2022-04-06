@@ -287,8 +287,8 @@ for m in range(4,5):
     print(resy1.shape) #(34720,)
     
     print('decx ',dec_x.shape)
-    combx = np.hstack((resx1,dec_x))
-    comby = np.hstack((resy1,dec_y))
+    combx = resx1 #np.hstack((resx1,dec_x))
+    comby = resy1 #np.hstack((resy1,dec_y))
 
     print(combx.shape) #(45000, 3, 32, 32)
     print(comby.shape) #(45000,)
