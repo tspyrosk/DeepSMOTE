@@ -300,7 +300,7 @@ for m in range(4,5):
             ifile = ifile + '19-01 dubbeldruk/'
         else:
             ifile = ifile + '19-01 onderbroken/'
-        im = Image.fromarray(im)
+        im = Image.fromarray(im[0])
         im.save(ifile)
 
 t1 = time.time()
