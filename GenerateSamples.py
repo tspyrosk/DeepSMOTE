@@ -301,9 +301,9 @@ for m in range(4,5):
         else:
             ifile = ifile + '19-01 onderbroken/'
         ifile = ifile + f'im{im_idx}.png'
-        im = Image.fromarray(im[0])
-        im = im.convert("L")
-        im.save(ifile)
+        out_im = torch.tensor(im[0]).add_(1.0).div_(2).mul_(255).clamp_(0, 255).permute(1, 2, 0).to('cpu', torch.uint8).numpy()
+        out_im = Image.fromarray(out_im)
+        out_im.save(ifile)
 
 t1 = time.time()
 print('final time(min): {:.2f}'.format((t1 - t0)/60))
