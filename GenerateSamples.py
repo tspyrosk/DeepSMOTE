@@ -159,8 +159,7 @@ def G_SM1(X, y,n_to_sample,cl):
 #############################################################################
 np.printoptions(precision=5,suppress=True)
 
-dtrnimg = '.../0_trn_img.txt'
-dtrnlab = '.../0_trn_lab.txt'
+dtrnimg = './shaver_shell_train'
 
 ids = os.listdir(dtrnimg)
 idtri_f = [os.path.join(dtrnimg, image_id) for image_id in ids]
