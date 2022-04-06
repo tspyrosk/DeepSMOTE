@@ -302,6 +302,7 @@ for m in range(4,5):
             ifile = ifile + '19-01 onderbroken/'
         ifile = ifile + f'im{im_idx}.png'
         im = Image.fromarray(im[0])
+        im = im.convert("L")
         im.save(ifile)
 
 t1 = time.time()
