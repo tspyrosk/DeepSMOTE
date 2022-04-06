@@ -285,11 +285,7 @@ for m in range(4,5):
     #resx1 = np.squeeze(resx1)
     print(resx1.shape) #(34720, 3, 32, 32)
     print(resy1.shape) #(34720,)
-
-    resx1 = resx1.reshape(resx1.shape[0],-1)
-    print(resx1.shape) #(34720, 3072)
     
-    dec_x1 = dec_x.reshape(dec_x.shape[0],-1)
     print('decx1 ',dec_x1.shape)
     combx = np.vstack((resx1,dec_x1))
     comby = np.hstack((resy1,dec_y))
