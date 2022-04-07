@@ -24,7 +24,7 @@ args['n_z'] = 600     # number of dimensions in latent space.
 args['sigma'] = 1.0        # variance in n_z
 args['lambda'] = 0.01      # hyper param for weight of discriminator loss
 args['lr'] = 0.0002        # learning rate for Adam optimizer .000
-args['epochs'] = 800       # how many epochs to run for
+args['epochs'] = 200       # how many epochs to run for
 args['batch_size'] = 100   # batch size for SGD
 args['save'] = True        # save weights at each epoch of training if True
 args['train'] = True       # train networks if True, else load networks from
@@ -236,7 +236,7 @@ for i in range(len(batches)):
         
         dec_x = dec_x/255.0
         # confirm the normalization
-        print('Min: %.3f, Max: %.3f' % (dec_x.min(), dec_x.max()))
+        #print('Min: %.3f, Max: %.3f' % (dec_x.min(), dec_x.max()))
 
         
         images.append(dec_x)
