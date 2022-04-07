@@ -190,7 +190,7 @@ for p in [0]:
     #print(dec)
     #print()
 
-for m in range(4,5):
+for m in range(0,1):
         
     images = []
     labels = []
