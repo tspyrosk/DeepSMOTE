@@ -234,6 +234,8 @@ for i in range(len(batches)):
         dec_x = image.img_to_array(img_orig).astype(np.uint8)
         dec_x = np.moveaxis(dec_x, -1, 0)
         images.append(dec_x)
+        
+        print('Min: %.3f, Max: %.3f' % (dec_x.min(), dec_x.max()))
      
         if 'good' in trnimgfile:   
             dec_y = 0
