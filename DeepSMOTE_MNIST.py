@@ -197,7 +197,7 @@ for path in idtri_f:
         
 idtri_f = actual_img_files
 
-batch_size = 100
+batch_size = 3500
 batches = []
 for index in range(0,len(idtri_f),batch_size):
     top = min(index+batch_size,len(idtri_f))
@@ -264,7 +264,7 @@ for i in range(len(batches)):
     tensor_y = torch.tensor(dec_y,dtype=torch.long)
     mnist_bal = TensorDataset(tensor_x,tensor_y) 
     train_loader = torch.utils.data.DataLoader(mnist_bal, 
-        batch_size=batch_size,shuffle=True,num_workers=num_workers)
+        batch_size=100,shuffle=True,num_workers=num_workers)
     
     classes = ('19-01 goed', '19-01 dubbeldruk', '19-01 interrupted')
 
