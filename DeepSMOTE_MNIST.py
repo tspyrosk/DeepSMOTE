@@ -233,9 +233,13 @@ for i in range(len(batches)):
         img_orig = image.load_img(trnimgfile, target_size=(28, 28))
         dec_x = image.img_to_array(img_orig).astype(np.uint8)
         dec_x = np.moveaxis(dec_x, -1, 0)
-        images.append(dec_x)
         
+        dec_x /= 255.0
+        # confirm the normalization
         print('Min: %.3f, Max: %.3f' % (dec_x.min(), dec_x.max()))
+
+        
+        images.append(dec_x)
      
         if 'good' in trnimgfile:   
             dec_y = 0
