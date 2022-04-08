@@ -69,7 +69,7 @@ class Encoder(nn.Module):
             #3d and 32 by 32
             nn.Conv2d(self.dim_h * 8, self.dim_h * 16, 4, 1, 0, bias=False),
             
-            nn.BatchNorm2d(self.dim_h * 16), # 40 X 8 = 320
+            nn.BatchNorm2d(self.dim_h * 16), # 40 X 16 = 320
             #nn.ReLU(True),
             nn.LeakyReLU(0.2, inplace=True) )#,
             #nn.Conv2d(self.dim_h * 8, 1, 2, 1, 0, bias=False))
@@ -79,11 +79,11 @@ class Encoder(nn.Module):
         
 
     def forward(self, x):
-        #print('enc')
-        #print('input ',x.size()) #torch.Size([100, 3,32,32])
+        print('enc')
+        print('input ',x.size()) #torch.Size([100, 3,32,32])
         x = self.conv(x)
         
-        x = x.squeeze()
+        #x = x.squeeze()
         #print('aft squeeze ',x.size()) #torch.Size([128, 320])
         #aft squeeze  torch.Size([100, 320])
         x = self.fc(x)
