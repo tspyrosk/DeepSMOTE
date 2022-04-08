@@ -123,6 +123,7 @@ class Decoder(nn.Module):
         x = x.view(-1, self.dim_h *16, 4, 4)
         print('view ', x.size())
         x = self.deconv(x)
+        print('deconv ', x.size())
         return x
 
 ##############################################################################
