@@ -75,11 +75,11 @@ class Encoder(nn.Module):
 
     def forward(self, x):
         print('enc')
-        print('input ',x.size()) #torch.Size([100, 3,32,32])
+        #print('input ',x.size()) #torch.Size([100, 3,32,32])
         x = self.conv(x)
-        print('conv ',x.size())
+        #print('conv ',x.size())
         x = x.squeeze()
-        print('aft squeeze ',x.size()) #torch.Size([128, 320])
+        #print('aft squeeze ',x.size()) #torch.Size([128, 320])
         #aft squeeze  torch.Size([100, 320])
         x = self.fc(x)
         #print('out ',x.size()) #torch.Size([128, 20])
@@ -97,11 +97,14 @@ class Decoder(nn.Module):
 
         # first layer is fully connected
         self.fc = nn.Sequential(
-            nn.Linear(self.n_z, self.dim_h * 8 * 7 * 7),
+            nn.Linear(self.n_z, self.dim_h * 16 * 4 * 4),
             nn.ReLU())
 
         # deconvolutional filters, essentially inverse of convolutional filters
         self.deconv = nn.Sequential(
+            nn.ConvTranspose2d(self.dim_h * 16, self.dim_h * 8, 4),
+            nn.BatchNorm2d(self.dim_h * 8),
+            nn.ReLU(True),
             nn.ConvTranspose2d(self.dim_h * 8, self.dim_h * 4, 4),
             nn.BatchNorm2d(self.dim_h * 4),
             nn.ReLU(True),
@@ -113,10 +116,12 @@ class Decoder(nn.Module):
             nn.Tanh())
 
     def forward(self, x):
-        #print('dec')
-        #print('input ',x.size())
+        print('dec')
+        print('input ',x.size())
         x = self.fc(x)
-        x = x.view(-1, self.dim_h * 8, 7, 7)
+        print('fc ',x.size())
+        x = x.view(-1, self.dim_h *16, 4, 4)
+        print('view ', x.sie())
         x = self.deconv(x)
         return x
 
