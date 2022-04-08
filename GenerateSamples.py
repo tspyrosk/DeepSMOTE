@@ -263,33 +263,39 @@ for m in range(0,1):
         xclass = xclass.detach().cpu().numpy()
         n = imbal[0] - imbal[i]
         xsamp, ysamp = G_SM1(xclass,yclass,n,i)
-        print(xsamp.shape) #(4500, 600)
-        print(len(ysamp)) #4500
-        ysamp = np.array(ysamp)
-        print(ysamp.shape) #4500   
-    
-        """to generate samples for resnet"""   
-        xsamp = torch.Tensor(xsamp)
-        xsamp = xsamp.to(device)
-        #xsamp = xsamp.view(xsamp.size()[0], xsamp.size()[1], 1, 1)
-        #print(xsamp.size()) #torch.Size([10, 600, 1, 1])
-        ximg = decoder(xsamp)
+        print('xsamp ',xsamp.shape) #(4500, 600)
+        print('ysamp', len(ysamp)) #4500
+        
+        batch_size = 100
+        for index in range(0,len(ysamp),batch_size):
+            top = min(index+batch_size,len(ysamp))
+            x_batch=xsamp[index:top, :]
 
-        ximn = ximg.detach().cpu().numpy()
-        print(ximn.shape) #(4500, 3, 32, 32)
-        #ximn = np.expand_dims(ximn,axis=1)
-        print(ximn.shape) #(4500, 3, 32, 32)
-        for im_idx, im in enumerate(ximn):
-            label = ysamp[im_idx]
-            ifile = './aug_data/'
-            if label == 1:
-                ifile = ifile + '19-01 dubbeldruk/'
-            else:
-                ifile = ifile + '19-01 onderbroken/'
-            ifile = ifile + f'im{im_idx}.png'
-            out_im = torch.tensor(im[0]).mul_(255).clamp_(0, 255).to('cpu', torch.uint8).numpy()
-            out_im = Image.fromarray(out_im)
-            out_im.save(ifile)
+            y_batch=ysamp[index:top]
+        
+            y_batch = np.array(y_batch)
+    
+            """to generate samples for resnet"""   
+            x_batch = torch.Tensor(x_batch)
+            x_batch = x_batch.to(device)
+            #print(xsamp.size()) #torch.Size([10, 600, 1, 1])
+            ximg = decoder(x_batch)
+
+            ximn = ximg.detach().cpu().numpy()
+            print(ximn.shape) #(4500, 3, 32, 32)
+            #ximn = np.expand_dims(ximn,axis=1)
+            print(ximn.shape) #(4500, 3, 32, 32)
+            for im_idx, im in enumerate(ximn):
+                label = y_batch[im_idx]
+                ifile = './aug_data/'
+                if label == 1:
+                    ifile = ifile + '19-01 dubbeldruk/'
+                else:
+                    ifile = ifile + '19-01 onderbroken/'
+                ifile = ifile + f'im{im_idx}.png'
+                out_im = torch.tensor(im[0]).mul_(255).clamp_(0, 255).to('cpu', torch.uint8).numpy()
+                out_im = Image.fromarray(out_im)
+                out_im.save(ifile)
 
 
 t1 = time.time()
