@@ -121,7 +121,7 @@ class Decoder(nn.Module):
         x = self.fc(x)
         print('fc ',x.size())
         x = x.view(-1, self.dim_h *16, 4, 4)
-        print('view ', x.sie())
+        print('view ', x.size())
         x = self.deconv(x)
         return x
 
