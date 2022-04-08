@@ -230,7 +230,7 @@ for i in range(len(batches)):
     for im_i in range(curr_batch_size):
         trnimgfile = curr_batch[im_i]
     
-        img_orig = image.load_img(trnimgfile, target_size=(28, 28))
+        img_orig = image.load_img(trnimgfile, target_size=(128, 128))
         dec_x = image.img_to_array(img_orig).astype(np.uint8)
         dec_x = np.moveaxis(dec_x, -1, 0)
         
