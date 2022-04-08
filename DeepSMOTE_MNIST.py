@@ -63,19 +63,14 @@ class Encoder(nn.Module):
             nn.BatchNorm2d(self.dim_h * 8),
             nn.LeakyReLU(0.2, inplace=True),
             
-            #2d
-            #nn.Conv2d(self.dim_h * 4, self.dim_h * 8, 4, 2, 1, bias=False),
-            
-            #3d and 32 by 32
             nn.Conv2d(self.dim_h * 8, self.dim_h * 16, 4, 2, 1, bias=False),
             
-            nn.BatchNorm2d(self.dim_h * 16), # 40 X 16 = 320
-            #nn.ReLU(True),
-            nn.LeakyReLU(0.2, inplace=True) )#,
-            #nn.Conv2d(self.dim_h * 8, 1, 2, 1, 0, bias=False))
-            #nn.Conv2d(self.dim_h * 8, 1, 4, 1, 0, bias=False))
+            nn.BatchNorm2d(self.dim_h * 16),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Conv2d(self.dim_h * 16, self.dim_h * 32, 4, 1, 0, bias=False)
+        )
         # final layer is fully connected
-        self.fc = nn.Linear(self.dim_h * (2 ** 4), self.n_z)
+        self.fc = nn.Linear(self.dim_h * (2 ** 5), self.n_z)
         
 
     def forward(self, x):
