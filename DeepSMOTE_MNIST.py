@@ -102,16 +102,16 @@ class Decoder(nn.Module):
 
         # deconvolutional filters, essentially inverse of convolutional filters
         self.deconv = nn.Sequential(
-            nn.ConvTranspose2d(self.dim_h * 16, self.dim_h * 8, 4),
+            nn.ConvTranspose2d(self.dim_h * 16, self.dim_h * 8, 4, 2, 1),
             nn.BatchNorm2d(self.dim_h * 8),
             nn.ReLU(True),
-            nn.ConvTranspose2d(self.dim_h * 8, self.dim_h * 4, 4),
+            nn.ConvTranspose2d(self.dim_h * 8, self.dim_h * 4, 4, 2, 1),
             nn.BatchNorm2d(self.dim_h * 4),
             nn.ReLU(True),
-            nn.ConvTranspose2d(self.dim_h * 4, self.dim_h * 2, 4),
+            nn.ConvTranspose2d(self.dim_h * 4, self.dim_h * 2, 4, 2, 1),
             nn.BatchNorm2d(self.dim_h * 2),
             nn.ReLU(True),
-            nn.ConvTranspose2d(self.dim_h * 2, 1, 4, stride=2),
+            nn.ConvTranspose2d(self.dim_h * 2, 3, 4, 2, 1),
             #nn.Sigmoid())
             nn.Tanh())
 
