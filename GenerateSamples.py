@@ -34,6 +34,8 @@ args['dataset'] = 'mnist' #'fmnist' # specify which dataset to use
 
 ##############################################################################
 
+
+
 ## create encoder model and decoder model
 class Encoder(nn.Module):
     def __init__(self, args):
@@ -57,30 +59,25 @@ class Encoder(nn.Module):
             #nn.ReLU(True),
             nn.LeakyReLU(0.2, inplace=True),
             
-            
             nn.Conv2d(self.dim_h * 4, self.dim_h * 8, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(self.dim_h * 8),
+            nn.LeakyReLU(0.2, inplace=True),
             
-            #3d and 32 by 32
-            #nn.Conv2d(self.dim_h * 4, self.dim_h * 8, 4, 1, 0, bias=False),
+            nn.Conv2d(self.dim_h * 8, self.dim_h * 16, 4, 2, 1, bias=False),
             
-            nn.BatchNorm2d(self.dim_h * 8), # 40 X 8 = 320
-            #nn.ReLU(True),
-            nn.LeakyReLU(0.2, inplace=True) )#,
-            #nn.Conv2d(self.dim_h * 8, 1, 2, 1, 0, bias=False))
-            #nn.Conv2d(self.dim_h * 8, 1, 4, 1, 0, bias=False))
+            nn.BatchNorm2d(self.dim_h * 16),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Conv2d(self.dim_h * 16, self.dim_h * 32, 4, 1, 0, bias=False)
+        )
         # final layer is fully connected
-        self.fc = nn.Linear(self.dim_h * (2 ** 3), self.n_z)
+        self.fc = nn.Linear(self.dim_h * (2 ** 5), self.n_z)
         
 
     def forward(self, x):
-        #print('enc')
+        print('enc')
         #print('input ',x.size()) #torch.Size([100, 3,32,32])
         x = self.conv(x)
-        #print('aft conv ',x.size()) #torch.Size([100, 320, 2, 2]) with 
-        #nn.Conv2d(self.dim_h * 4, self.dim_h * 8, 4, 2, 1, bias=False),
-        #vs torch.Size([128, 320, 1, 1])
-        #aft conv  torch.Size([100, 320, 1, 1]) with 
-        #nn.Conv2d(self.dim_h * 4, self.dim_h * 8, 4, 1, 0, bias=False),
+        #print('conv ',x.size())
         x = x.squeeze()
         #print('aft squeeze ',x.size()) #torch.Size([128, 320])
         #aft squeeze  torch.Size([100, 320])
@@ -100,27 +97,36 @@ class Decoder(nn.Module):
 
         # first layer is fully connected
         self.fc = nn.Sequential(
-            nn.Linear(self.n_z, self.dim_h * 8 * 7 * 7),
+            nn.Linear(self.n_z, self.dim_h * 16 * 4 * 4),
             nn.ReLU())
 
         # deconvolutional filters, essentially inverse of convolutional filters
         self.deconv = nn.Sequential(
-            nn.ConvTranspose2d(self.dim_h * 8, self.dim_h * 4, 4),
+            nn.ConvTranspose2d(self.dim_h * 16, self.dim_h * 8, 4, 2, 1),
+            nn.BatchNorm2d(self.dim_h * 8),
+            nn.ReLU(True),
+            nn.ConvTranspose2d(self.dim_h * 8, self.dim_h * 4, 4, 2, 1),
             nn.BatchNorm2d(self.dim_h * 4),
             nn.ReLU(True),
-            nn.ConvTranspose2d(self.dim_h * 4, self.dim_h * 2, 4),
+            nn.ConvTranspose2d(self.dim_h * 4, self.dim_h * 2, 4, 2, 1),
             nn.BatchNorm2d(self.dim_h * 2),
             nn.ReLU(True),
-            nn.ConvTranspose2d(self.dim_h * 2, 1, 4, stride=2),
-            #nn.Sigmoid()
+            nn.ConvTranspose2d(self.dim_h * 2, self.dim_h, 4, 2, 1),
+            nn.BatchNorm2d(self.dim_h),
+            nn.ReLU(True),
+            nn.ConvTranspose2d(self.dim_h, 3, 4, 2, 1),
+            #nn.Sigmoid())
             nn.Tanh())
 
     def forward(self, x):
-        #print('dec')
-        #print('input ',x.size())
+        print('dec')
+        print('input ',x.size())
         x = self.fc(x)
-        x = x.view(-1, self.dim_h * 8, 7, 7)
+        print('fc ',x.size())
+        x = x.view(-1, self.dim_h *16, 4, 4)
+        print('view ', x.size())
         x = self.deconv(x)
+        print('deconv ', x.size())
         return x
 
 ##############################################################################
@@ -197,7 +203,7 @@ for m in range(0,1):
     for im_i in range(len(idtri_f)):
         trnimgfile = idtri_f[im_i]
     
-        img_orig = image.load_img(trnimgfile, target_size=(28, 28))
+        img_orig = image.load_img(trnimgfile, target_size=(128, 128))
         dec_x = image.img_to_array(img_orig).astype(np.uint8)
         dec_x = np.moveaxis(dec_x, -1, 0)
         images.append(dec_x)
