@@ -279,37 +279,18 @@ for m in range(0,1):
         print(ximn.shape) #(4500, 3, 32, 32)
         #ximn = np.expand_dims(ximn,axis=1)
         print(ximn.shape) #(4500, 3, 32, 32)
-        resx.append(ximn)
-        resy.append(ysamp)
-        #print('resx ',resx.shape)
-        #print('resy ',resy.shape)
-        #print()
-    
-    resx1 = np.vstack(resx)
-    resy1 = np.hstack(resy)
-    #print(resx1.shape) #(34720, 3, 32, 32)
-    #resx1 = np.squeeze(resx1)
-    print(resx1.shape) #(34720, 3, 32, 32)
-    print(resy1.shape) #(34720,)
-    
-    print('decx ',dec_x.shape)
-    combx = resx1 #np.hstack((resx1,dec_x))
-    comby = resy1 #np.hstack((resy1,dec_y))
+        for im_idx, im in enumerate(ximn):
+            label = ysamp[im_idx]
+            ifile = './aug_data/'
+            if label == 1:
+                ifile = ifile + '19-01 dubbeldruk/'
+            else:
+                ifile = ifile + '19-01 onderbroken/'
+            ifile = ifile + f'im{im_idx}.png'
+            out_im = torch.tensor(im[0]).mul_(255).clamp_(0, 255).to('cpu', torch.uint8).numpy()
+            out_im = Image.fromarray(out_im)
+            out_im.save(ifile)
 
-    print(combx.shape) #(45000, 3, 32, 32)
-    print(comby.shape) #(45000,)
-
-    for im_idx, im in enumerate(combx):
-        label = comby[im_idx]
-        ifile = './aug_data/'
-        if label == 1:
-            ifile = ifile + '19-01 dubbeldruk/'
-        else:
-            ifile = ifile + '19-01 onderbroken/'
-        ifile = ifile + f'im{im_idx}.png'
-        out_im = torch.tensor(im[0]).mul_(255).clamp_(0, 255).to('cpu', torch.uint8).numpy()
-        out_im = Image.fromarray(out_im)
-        out_im.save(ifile)
 
 t1 = time.time()
 print('final time(min): {:.2f}'.format((t1 - t0)/60))
