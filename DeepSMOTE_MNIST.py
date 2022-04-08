@@ -59,11 +59,11 @@ class Encoder(nn.Module):
             #nn.ReLU(True),
             nn.LeakyReLU(0.2, inplace=True),
             
-            
-            nn.Conv2d(self.dim_h * 4, self.dim_h * 8, 4, 2, 1, bias=False),
+            #2d
+            #nn.Conv2d(self.dim_h * 4, self.dim_h * 8, 4, 2, 1, bias=False),
             
             #3d and 32 by 32
-            #nn.Conv2d(self.dim_h * 4, self.dim_h * 8, 4, 1, 0, bias=False),
+            nn.Conv2d(self.dim_h * 4, self.dim_h * 8, 4, 1, 0, bias=False),
             
             nn.BatchNorm2d(self.dim_h * 8), # 40 X 8 = 320
             #nn.ReLU(True),
