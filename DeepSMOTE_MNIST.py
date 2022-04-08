@@ -111,6 +111,9 @@ class Decoder(nn.Module):
             nn.ConvTranspose2d(self.dim_h * 4, self.dim_h * 2, 4, 2, 1),
             nn.BatchNorm2d(self.dim_h * 2),
             nn.ReLU(True),
+            nn.ConvTranspose2d(self.dim_h * 2, self.dim_h, 4, 2, 1),
+            nn.BatchNorm2d(self.dim_h),
+            nn.ReLU(True),
             nn.ConvTranspose2d(self.dim_h * 2, 3, 4, 2, 1),
             #nn.Sigmoid())
             nn.Tanh())
