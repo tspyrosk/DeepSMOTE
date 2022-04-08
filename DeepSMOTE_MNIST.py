@@ -74,7 +74,7 @@ class Encoder(nn.Module):
         
 
     def forward(self, x):
-        print('enc')
+        #print('enc')
         #print('input ',x.size()) #torch.Size([100, 3,32,32])
         x = self.conv(x)
         #print('conv ',x.size())
@@ -119,14 +119,14 @@ class Decoder(nn.Module):
             nn.Tanh())
 
     def forward(self, x):
-        print('dec')
-        print('input ',x.size())
+        #print('dec')
+        #print('input ',x.size())
         x = self.fc(x)
-        print('fc ',x.size())
+        #print('fc ',x.size())
         x = x.view(-1, self.dim_h *16, 4, 4)
-        print('view ', x.size())
+        #print('view ', x.size())
         x = self.deconv(x)
-        print('deconv ', x.size())
+        #print('deconv ', x.size())
         return x
 
 ##############################################################################
@@ -218,7 +218,7 @@ batches = batches[:-1]
 for i in range(len(batches)):
     curr_batch = batches[i]
     curr_batch_size = len(curr_batch)
-    print("curr_batch_size: ", curr_batch_size)
+
     encoder = Encoder(args)
     decoder = Decoder(args)
 
@@ -322,7 +322,7 @@ for i in range(len(batches)):
                 xlen = len(xbeg)
                 nsamp = min(xlen, 100)
                 ind = np.random.choice(list(range(len(xbeg))),nsamp,replace=False)
-                print("ind", ind)
+                #print("ind", ind)
                 xclass = xbeg[ind]
                 yclass = ybeg[ind]
             
