@@ -82,9 +82,9 @@ class Encoder(nn.Module):
         print('enc')
         print('input ',x.size()) #torch.Size([100, 3,32,32])
         x = self.conv(x)
-        
-        #x = x.squeeze()
-        #print('aft squeeze ',x.size()) #torch.Size([128, 320])
+        print('conv ',x.size())
+        x = x.squeeze()
+        print('aft squeeze ',x.size()) #torch.Size([128, 320])
         #aft squeeze  torch.Size([100, 320])
         x = self.fc(x)
         #print('out ',x.size()) #torch.Size([128, 20])
