@@ -292,7 +292,7 @@ for m in range(0,1):
                     ifile = ifile + '19-01 dubbeldruk/'
                 else:
                     ifile = ifile + '19-01 onderbroken/'
-                ifile = ifile + f'im{im_idx}.png'
+                ifile = ifile + f'im{index}_{im_idx}.png'
                 out_im = torch.tensor(im[0]).mul_(255).clamp_(0, 255).to('cpu', torch.uint8).numpy()
                 out_im = Image.fromarray(out_im)
                 out_im.save(ifile)
