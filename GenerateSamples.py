@@ -244,12 +244,12 @@ for m in range(0,1):
     encoder.eval()
     decoder.eval()
 
-    imbal = [2677, 244, 598]
+    imbal = [300, 100]
 
     resx = []
     resy = []
 
-    for i in range(0,1):
+    for i in range(1,2):
         xclass, yclass = biased_get_class1(i)
         print(xclass.shape) #(500, 3, 32, 32)
         print(yclass[0]) #(500,)
