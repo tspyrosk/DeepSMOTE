@@ -205,7 +205,7 @@ for path in idtri_f:
         
 idtri_f = actual_img_files
 
-batch_size = 32
+batch_size = 4
 batches = []
 for index in range(0,len(idtri_f),batch_size):
     top = min(index+batch_size,len(idtri_f))
