@@ -244,15 +244,15 @@ for m in range(0,1):
     encoder.eval()
     decoder.eval()
 
-    imbal = [300, 100]
+    imbal = [100, 300]
 
     resx = []
     resy = []
 
-    for i in range(1,2):
+    for i in range(0,1):
         xclass, yclass = biased_get_class1(i)
-        print(xclass.shape) #(500, 3, 32, 32)
-        print(yclass[0]) #(500,)
+        print('xclass', xclass.shape) #(500, 3, 32, 32)
+        print('yclass', yclass.shape) #(500,)
             
         #encode xclass to feature space
         xclass = torch.Tensor(xclass)
@@ -261,7 +261,7 @@ for m in range(0,1):
         print(xclass.shape) #torch.Size([500, 600])
             
         xclass = xclass.detach().cpu().numpy()
-        n = imbal[0] - imbal[i]
+        n = imbal[1] - imbal[i]
         xsamp, ysamp = G_SM1(xclass,yclass,n,i)
         print('xsamp ',xsamp.shape) #(4500, 600)
         print('ysamp', len(ysamp)) #4500
