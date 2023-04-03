@@ -315,13 +315,13 @@ for i in range(len(batches)):
                 resx = []
                 resy = []
             
-                tc= np.random.choice(3,1)
+                tc= np.random.choice(2,1)
                 #tc = 9
                 xbeg = dec_x[dec_y == tc]
                 ybeg = dec_y[dec_y == tc] 
                 xlen = len(xbeg)
                 nsamp = min(xlen, 100)
-                ind = np.random.choice(list(range(len(xbeg))),nsamp,replace=True)
+                ind = np.random.choice(list(range(len(xbeg))),nsamp,replace=False)
                 print("ind", ind)
                 xclass = xbeg[ind]
                 yclass = ybeg[ind]
