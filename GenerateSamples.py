@@ -249,7 +249,7 @@ for m in range(0,1):
     resx = []
     resy = []
 
-    for i in range(1,3):
+    for i in range(0,1):
         xclass, yclass = biased_get_class1(i)
         print(xclass.shape) #(500, 3, 32, 32)
         print(yclass[0]) #(500,)
