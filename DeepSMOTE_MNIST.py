@@ -250,8 +250,8 @@ for i in range(len(batches)):
         images.append(dec_x)
      
         if 'good' in trnimgfile:   
-            dec_y = 0
-        elif 'double' in trnimgfile:
+            dec_y = 1
+        elif 'bad' in trnimgfile:
             dec_y = 1
         else:
             dec_y = 2
@@ -274,7 +274,7 @@ for i in range(len(batches)):
     train_loader = torch.utils.data.DataLoader(mnist_bal, 
         batch_size=100,shuffle=True,num_workers=num_workers)
     
-    classes = ('19-01 goed', '19-01 dubbeldruk', '19-01 interrupted')
+    classes = ('bad', 'good')
 
     best_loss = np.inf
 
