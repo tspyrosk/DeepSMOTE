@@ -209,9 +209,9 @@ for m in range(0,1):
         images.append(dec_x)
      
         if 'good' in trnimgfile:   
-            dec_y = 0
-        elif 'double' in trnimgfile:
             dec_y = 1
+        elif 'bad' in trnimgfile:
+            dec_y = 0
         else:
             dec_y = 2
      
@@ -224,7 +224,7 @@ for m in range(0,1):
     print('train imgs before reshape ',dec_x.shape) #(44993, 3072) 45500, 3072)
     print('train labels ',dec_y.shape) #(44993,) (45500,)
 
-    classes = ('19-01 goed', '19-01 dubbeldruk', '19-01 interrupted')
+    classes = ('bad', 'good')
     
     #generate some images 
     train_on_gpu = torch.cuda.is_available()
@@ -288,10 +288,10 @@ for m in range(0,1):
             for im_idx, im in enumerate(ximn):
                 label = y_batch[im_idx]
                 ifile = './aug_data/'
-                if label == 1:
-                    ifile = ifile + '19-01 dubbeldruk/'
+                if label == 0:
+                    ifile = ifile + 'bad'
                 else:
-                    ifile = ifile + '19-01 onderbroken/'
+                    ifile = ifile + 'good'
                 ifile = ifile + f'im{index}_{im_idx}.png'
                 out_im = torch.tensor(im[0]).mul_(255).clamp_(0, 255).to('cpu', torch.uint8).numpy()
                 out_im = Image.fromarray(out_im)
