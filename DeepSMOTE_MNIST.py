@@ -250,7 +250,7 @@ for i in range(len(batches)):
         images.append(dec_x)
      
         if 'good' in trnimgfile:   
-            dec_y = 1
+            dec_y = 0
         elif 'bad' in trnimgfile:
             dec_y = 1
         else:
@@ -322,7 +322,7 @@ for i in range(len(batches)):
                 xlen = len(xbeg)
                 nsamp = min(xlen, 100)
                 ind = np.random.choice(list(range(len(xbeg))),nsamp,replace=False)
-                #print("ind", ind)
+                print("ind", ind)
                 xclass = xbeg[ind]
                 yclass = ybeg[ind]
             
