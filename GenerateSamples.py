@@ -289,9 +289,9 @@ for m in range(0,1):
                 label = y_batch[im_idx]
                 ifile = './aug_data/'
                 if label == 0:
-                    ifile = ifile + 'bad'
+                    ifile = ifile + 'bad/'
                 else:
-                    ifile = ifile + 'good'
+                    ifile = ifile + 'good/'
                 ifile = ifile + f'im{index}_{im_idx}.png'
                 out_im = torch.tensor(im[0]).mul_(255).clamp_(0, 255).to('cpu', torch.uint8).numpy()
                 out_im = Image.fromarray(out_im)
