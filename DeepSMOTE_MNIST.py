@@ -321,7 +321,7 @@ for i in range(len(batches)):
                 ybeg = dec_y[dec_y == tc] 
                 xlen = len(xbeg)
                 nsamp = min(xlen, 100)
-                ind = np.random.choice(list(range(len(xbeg))),nsamp,replace=False)
+                ind = np.random.choice(list(range(len(xbeg))),nsamp,replace=True)
                 print("ind", ind)
                 xclass = xbeg[ind]
                 yclass = ybeg[ind]
